@@ -1,0 +1,55 @@
+	•	System Design Question: Scaling an app with millions of DB reads.
+	•	Topics to Review: Database indexing, caching (e.g., Redis), load balancing, database sharding, horizontal scaling, and read replicas.
+
+2nd Codesignal Round:
+
+1st Session: Discuss Projects and Leadership Principles (LP) Questions
+
+	•	Preparation:
+	•	Be ready to discuss your current and past projects in detail.
+	•	Focus on your role, the technologies used, the challenges faced, and how you overcame them.
+	•	Review Amazon’s Leadership Principles (Agoda is part of Booking Holdings, which values similar principles).
+
+2nd Session: Design a Bill Splitting App (Low-Level Design)
+https://medium.com/@premvishnoi/agoda-interivew-design-a-bill-splitting-app-46870fb63148
+
+	•	Components to Consider:
+	•	Users: Registration, login, and profile management.
+	•	Groups: Creating groups, adding/removing members.
+	•	Bills: Creating bills, assigning amounts to users.
+	•	Payments: Tracking payments, settling balances.
+	•	Notifications: Informing users about new bills and payments.
+
+Example Design:
+
+	•	Classes:
+	•	User: id, name, email
+	•	Group: id, name, list of users
+	•	Bill: id, group, amount, list of user amounts
+	•	Payment: id, payer, payee, amount
+	•	Relationships:
+	•	A user can belong to multiple groups.
+	•	A group can have multiple bills.
+	•	A bill can have multiple payments.
+
+General Preparation Tips:
+
+	1.	Algorithms and Data Structures:
+	•	Practice problems on arrays, strings, hashmaps, stacks, queues, linked lists, trees, and graphs.
+	•	Use platforms like LeetCode, HackerRank, and CodeSignal.
+	2.	System Design:
+	•	Review common system design topics like scalability, high availability, load balancing, caching, and microservices.
+	•	Practice designing systems like URL shorteners, social networks, and e-commerce platforms.
+	3.	Behavioral Questions:
+	•	Prepare examples demonstrating leadership, teamwork, conflict resolution, and problem-solving.
+	•	Use the STAR method (Situation, Task, Action, Result) to structure your answers.
+	4.	Coding Practice:
+	•	Write clean, efficient, and well-documented code.
+	•	Practice coding in an interview setting (e.g., using a whiteboard or an online code editor).
+
+On the Day of the Interview:
+
+	•	Ensure a stable internet connection and a quiet environment.
+	•	Have a notepad and pen ready for jotting down thoughts or questions.
+	•	Be clear and concise in your communication.
+	•	Take your time to understand the questions before diving into solutions.
