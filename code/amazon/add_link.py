@@ -28,8 +28,6 @@
 # Till now I have not heard back from the HR
 
 
-
-
 class ListNode:
     def __init__(self, link):
         self.link = link
@@ -70,12 +68,18 @@ class BrowserHistory:
                 else:
                     self.tail = current.prev
 
-                # Remove node from keywords_map
+                # Collect keywords to update
+                keywords_to_update = []
                 for keyword, nodes in self.keywords_map.items():
                     if current in nodes:
                         nodes.remove(current)
                         if not nodes:
-                            del self.keywords_map[keyword]
+                            keywords_to_update.append(keyword)
+
+                # Remove empty keywords
+                for keyword in keywords_to_update:
+                    del self.keywords_map[keyword]
+
                 return True
             current = current.next
         return False
