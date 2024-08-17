@@ -1,75 +1,33 @@
-# Here’s a step-by-step plan and the implementation in Python:
-#
-# Step-by-Step Plan:
-# https://leetcode.com/problems/sort-an-array/?envType=daily-question&envId=2024-07-25
-# 	1.	Divide: Split the array into two halves until each subarray contains a single element.
-# 	2.	Conquer: Recursively sort each subarray.
-# 	3.	Combine: Merge the sorted subarrays to produce the sorted array.
+import csv
+import sys
 
+def hierarchical_sort(input_file, output_file, sort_metric):
+    with open(input_file, 'r') as f:
+        reader = csv.DictReader(f, delimiter='|')
+        rows = list(reader)
 
-from typing import List
+    property_columns = [col for col in reader.fieldnames if col.startswith('property')]
 
+    def sort_key(row):
+        is_total_first = row['property0'] == '$total'
+        is_total_second = row['property1'] == '$total'
+        return (
+            -float(row[sort_metric]),  # Primary: Sort by metric in descending order
+            is_total_first,  # Secondary: Sort by whether it's a $total row in property0
+            is_total_second,  # Tertiary: Sort by whether it's a $total row in property1
+            row['property0'],  # Sort by property0 alphabetically
+            row['property1'],  # Sort by property1 alphabetically
+        )
 
-class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        def merge_sort(arr: List[int]) -> List[int]:
-            if len(arr) > 1:
-                mid = len(arr) // 2
-                L = arr[:mid]
-                R = arr[mid:]
+    sorted_rows = sorted(rows, key=sort_key)
 
-                merge_sort(L)
-                merge_sort(R)
+    with open(output_file, 'w') as f:
+        writer = csv.DictWriter(f, fieldnames=reader.fieldnames, delimiter='|')
+        writer.writeheader()
+        writer.writerows(sorted_rows)
 
-                i = j = k = 0
-
-                while i < len(L) and j < len(R):
-                    if L[i] < R[j]:
-                        arr[k] = L[i]
-                        i += 1
-                    else:
-                        arr[k] = R[j]
-                        j += 1
-                    k += 1
-
-                while i < len(L):
-                    arr[k] = L[i]
-                    i += 1
-                    k += 1
-
-                while j < len(R):
-                    arr[k] = R[j]
-                    j += 1
-                    k += 1
-
-            return arr
-
-        return merge_sort(nums)
-
-
-# Example usage:
-solution = Solution()
-nums1 = [5, 2, 3, 1]
-nums2 = [5, 1, 1, 2, 0, 0]
-
-print(solution.sortArray(nums1))  # Output: [1, 2, 3, 5]
-print(solution.sortArray(nums2))  # Output: [0, 0, 1, 1, 2, 5]
-
-from typing import List
-
-class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        for i in range(n):
-            for j in range(0, n-i-1):
-                if nums[j] > nums[j+1]:
-                    nums[j], nums[j+1] = nums[j+1], nums[j]  # Swap the elements
-        return nums
-
-# Example usage:
-solution = Solution()
-nums1 = [5, 2, 3, 1]
-nums2 = [5, 1, 1, 2, 0, 0]
-
-print(solution.sortArray(nums1))  # Output: [1, 2, 3, 5]
-print(solution.sortArray(nums2))  # Output: [0, 0, 1, 1, 2, 5]
+if __name__ == '__main__':
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+    sort_metric = sys.argv[3]
+    hierarchical_sort(input_file, output_file, sort_metric)
