@@ -61,7 +61,7 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
 
         rows = grouped_rows
 
-    # Write the sorted rows to the output file with | delimiter
+    # write to output file with | delimiter
     with open(output_file, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, delimiter='|')
         writer.writeheader()
@@ -69,10 +69,10 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
 
 
 if __name__ == '__main__':
-    # Get arguments from command line
+    #     input arg from paramter
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     sort_metric = sys.argv[3]
 
-    # Run the hierarchical sort
+    # call to function
     hierarchical_sort_data(input_file, output_file, sort_metric)
