@@ -13,32 +13,49 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
 
     # find property columns
     property_columns = [col for col in reader.fieldnames if col.startswith('property')]
-    print(property_columns)
+    # print(property_columns)
+    # ['property0', 'property1']
 
-    # Helper function to determine if a row is a $total row
+    # function to determine if a row is having filed value  $total row
     def is_total_row(row):
         return any(row[prop] == '$total' for prop in property_columns)
 
     # Helper function to sort rows within a group
     def sort_group(rows):
-        total_rows = [row for row in rows if is_total_row(row)]
-        non_total_rows = [row for row in rows if not is_total_row(row)]
-        # Sort non-total rows by the metric in descending order
+        total_rows = []
+        for row in rows:
+            if is_total_row(row):
+                total_rows.append(row)
+
+        # print(total_rows)
+
+        non_total_rows = []
+        for row in rows:
+            if not is_total_row(row):
+                non_total_rows.append(row)
+        # print(non_total_rows)
+
+        # Sort non-total rows by the metric in descending order data
         non_total_rows.sort(key=lambda x: float(x[sort_metric]), reverse=True)
         return total_rows + non_total_rows
 
     # Sort by property columns first to group properly
     rows.sort(key=itemgetter(*property_columns))
 
-    # Group by the higher levels in the hierarchy
     for i in range(len(property_columns)):
-        rows = [
-            row
-            for key, group in groupby(rows, key=itemgetter(*property_columns[:i + 1]))
-            for row in sort_group(list(group))
-        ]
+        grouped_rows = []
 
-    # Write the sorted rows to the output file
+        # Group rows by the first i+1 property columns
+        for key, group in groupby(rows, key=itemgetter(*property_columns[:i + 1])):
+            group_list = list(group)
+            sorted_group = sort_group(group_list)
+
+            for row in sorted_group:
+                grouped_rows.append(row)
+
+        rows = grouped_rows
+
+    # Write the sorted rows to the output file with | delimiter
     with open(output_file, 'w') as f:
         writer = csv.DictWriter(f, fieldnames=reader.fieldnames, delimiter='|')
         writer.writeheader()
