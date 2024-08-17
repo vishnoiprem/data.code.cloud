@@ -12,7 +12,10 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
         rows = list(reader)
 
     # find property columns
-    property_columns = [col for col in reader.fieldnames if col.startswith('property')]
+    property_columns = []
+    for col in reader.fieldnames:
+        if col.startswith('property'):
+            property_columns.append(col)
     # print(property_columns)
     # ['property0', 'property1']
 
