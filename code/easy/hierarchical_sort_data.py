@@ -1,17 +1,19 @@
-import csv
 import sys
+import csv
 from itertools import groupby
 from operator import itemgetter
 
 
-def hierarchical_sort(input_file, output_file, sort_metric):
+def hierarchical_sort_data(input_file, output_file, sort_metric):
     # Read the input file
     with open(input_file, 'r') as f:
         reader = csv.DictReader(f, delimiter='|')
+        #created to json format {'property0': 'bar', 'property1': '$total', 'net_sales': '-200'}, {'property0': 'foo', 'property1': 'sauce', 'net_sales': '300'},
         rows = list(reader)
 
-    # Identify property columns
+    # find property columns
     property_columns = [col for col in reader.fieldnames if col.startswith('property')]
+    print(property_columns)
 
     # Helper function to determine if a row is a $total row
     def is_total_row(row):
@@ -50,4 +52,4 @@ if __name__ == '__main__':
     sort_metric = sys.argv[3]
 
     # Run the hierarchical sort
-    hierarchical_sort(input_file, output_file, sort_metric)
+    hierarchical_sort_data(input_file, output_file, sort_metric)
