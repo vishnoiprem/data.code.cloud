@@ -21,7 +21,10 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
 
     # function to determine if a row is having filed value  $total row
     def is_total_row(row):
-        return any(row[prop] == '$total' for prop in property_columns)
+        for prop in property_columns:
+            if row[prop] == '$total':
+                return True
+        return False
 
     # Helper function to sort rows within a group
     def sort_group(rows):
