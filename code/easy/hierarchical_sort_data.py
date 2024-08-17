@@ -5,13 +5,13 @@ from operator import itemgetter
 
 
 def hierarchical_sort_data(input_file, output_file, sort_metric):
-    # Read the input file
+    #Read the input file and convert it to a list of dictionaries
     with open(input_file, 'r') as f:
         reader = csv.DictReader(f, delimiter='|')
         #created to json format {'property0': 'bar', 'property1': '$total', 'net_sales': '-200'}, {'property0': 'foo', 'property1': 'sauce', 'net_sales': '300'},
         rows = list(reader)
 
-    # find property columns
+    # find property columns which start with property eg property1 or property0 come here
     property_columns = []
     for col in reader.fieldnames:
         if col.startswith('property'):
@@ -28,6 +28,7 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
 
     # Helper function to sort rows within a group
     def sort_group(rows):
+        # Separate total and non-total rows
         total_rows = []
         for row in rows:
             if is_total_row(row):
@@ -45,9 +46,10 @@ def hierarchical_sort_data(input_file, output_file, sort_metric):
         non_total_rows.sort(key=lambda x: float(x[sort_metric]), reverse=True)
         return total_rows + non_total_rows
 
-    # Sort by property columns first to group properly
+    # Sort rows by property columns to group them properly
     rows.sort(key=itemgetter(*property_columns))
 
+    # Hierarchically sort the data by progressively grouping and sorting by properties
     for i in range(len(property_columns)):
         grouped_rows = []
 
