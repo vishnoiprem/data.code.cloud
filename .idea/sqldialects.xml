@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/code/amazon/sql/number-of-sales-for-each-product-this-month.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sql/tiktok/Identify TikTok's Most Active Users.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/sql/tiktok/TikTok Sign-Up Activation Rate.sql" dialect="PostgreSQL" />
   </component>
 </project>

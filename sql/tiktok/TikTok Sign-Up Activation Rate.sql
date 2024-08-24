@@ -27,7 +27,22 @@ INSERT INTO texts (text_id, email_id, signup_action) VALUES
 (6920, 236, 'Not Confirmed'),
 (6994, 236, 'Confirmed');
 
-select 1.00*COUNT( distinct case  when signup_action='Confirmed'  then  e.email_id else null end  )/COUNT(e.email_id )
+
+select  round(1.00*COUNT( distinct case  when signup_action='Confirmed'  then  e.email_id else null end  )/COUNT(e.email_id ),2)
 from emails as e
 INNER join texts t on e.email_id = t.email_id
 ;
+
+WITH confirmed_emails AS (
+    SELECT e.email_id
+    FROM emails e
+    JOIN texts t ON e.email_id = t.email_id
+    WHERE t.signup_action = 'Confirmed'
+    GROUP BY e.email_id
+)
+
+SELECT ROUND(
+    1.00 * COUNT(DISTINCT c.email_id) / COUNT(DISTINCT e.email_id), 2
+) AS confirm_rate
+FROM emails e
+LEFT JOIN confirmed_emails c ON e.email_id = c.email_id;
