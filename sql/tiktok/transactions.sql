@@ -26,6 +26,8 @@ INSERT INTO transactions (merchant_id, credit_card, amount, transaction_time) VA
 select * from transactions;
 
 with  data_txn as (select *,
-                          lag(transaction_time) over (partition by credit_card,amount order by transaction_time asc ) as leg
+                          lag(transaction_time) over (partition by credit_card,amount order by transaction_time asc ) as leg_data
                    from transactions)
-select * from data_txn where  leg not null
+select COUNT(transaction_id) from data_txn where  leg_data IS NOT NULL
+AND extract(epoch from transaction_time -
+leg_data)/60 <=10;
