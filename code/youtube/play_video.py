@@ -1,72 +1,96 @@
-import vlc
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
-import datetime
-import google_auth_oauthlib.flow
-import googleapiclient.discovery
-import googleapiclient.errors
-import os
+import random
+from concurrent.futures import ThreadPoolExecutor
+import sys
 
 
-def get_video_url(youtube, video_id):
-    request = youtube.videos().list(
-        part="contentDetails",
-        id=video_id
-    )
-    response = request.execute()
-    video_url = f"https://www.youtube.com/watch?v={video_id}"
-    return video_url
+def setup_driver():
+    """Setup and return configured webdriver"""
+    try:
+        # Configure Safari options
+        options = webdriver.SafariOptions()
+        driver = webdriver.Safari(options=options)
+        return driver
+    except Exception as e:
+        print(f"Error setting up Safari driver: {str(e)}")
+        print("\nPlease ensure you have:")
+        print("1. Enabled 'Allow Remote Automation' in Safari's Develop menu")
+        print("2. Enabled the Develop menu in Safari > Preferences > Advanced")
+        sys.exit(1)
 
 
-def play_video(url, play_time_sec):
-    instance = vlc.Instance()
-    player = instance.media_player_new()
-    media = instance.media_new(url)
-    media.get_mrl()
-    player.set_media(media)
-    player.play()
-    time.sleep(1)  # Give time for the video to start
+def play_video(url, duration):
+    """
+    Play a single video for specified duration
+    """
+    driver = None
+    try:
+        print(f"Starting playback of {url}")
+        driver = setup_driver()
+        driver.get(url)
 
-    start_time = time.time()
-    while time.time() - start_time < play_time_sec:
-        if player.get_state() == vlc.State.Ended:
-            player.stop()
-            player.play()
-            time.sleep(1)  # Give time for the video to restart
-        time.sleep(1)
+        # Wait for and click play button
+        play_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "ytp-play-button"))
+        )
+        play_button.click()
 
-    player.stop()
+        # Let video play for specified duration
+        time.sleep(duration)
 
-
-def schedule_videos(youtube, video_id, daily_play_hours, total_days):
-    daily_play_time_sec = daily_play_hours * 3600  # Convert hours to seconds
-    total_play_time_sec = daily_play_time_sec * total_days
-
-    end_time = datetime.datetime.now() + datetime.timedelta(days=total_days)
-    video_url = get_video_url(youtube, video_id)
-    while datetime.datetime.now() < end_time:
-        print(f"Starting video playback for {daily_play_hours} hours.")
-        play_video(video_url, daily_play_time_sec)
-        print("Playback finished for today. Waiting until tomorrow.")
-        time.sleep(24 * 3600 - daily_play_time_sec)  # Wait until the next day
+    except Exception as e:
+        print(f"Error playing video {url}: {str(e)}")
+    finally:
+        if driver:
+            try:
+                driver.quit()
+            except Exception as e:
+                print(f"Error closing driver: {str(e)}")
 
 
 def main():
-    # Set up YouTube API credentials and build the service
-    api_service_name = "youtube"
-    api_version = "v3"
-    client_secrets_file = "client_secret.json"
+    # List of video URLs
+    video_urls = [
+        "https://www.youtube.com/watch?v=SPX73_-4JfY",
+        "https://www.youtube.com/watch?v=0GdHazY_YNQ",
+        # Add more URLs
+    ]
 
-    scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+    # Settings
+    hours_per_video = 1
+    seconds_per_video = hours_per_video * 3600
+    max_concurrent = 2  # Reduced for testing
 
-    if not os.path.exists(client_secrets_file):
-        print(f"Error: {client_secrets_file} not found.")
-        return
+    print("Starting video playback script...")
+    print(f"Maximum concurrent videos: {max_concurrent}")
+    print("Please ensure Safari's 'Allow Remote Automation' is enabled\n")
 
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-        client_secrets_file, scopes)
+    with ThreadPoolExecutor(max_workers=max_concurrent) as executor:
+        while True:
+            try:
+                random.shuffle(video_urls)
+                futures = [
+                    executor.submit(play_video, url, seconds_per_video)
+                    for url in video_urls[:max_concurrent]
+                ]
 
-    try:
-        # Use run_local_server instead of run_console
-        credentials = flow.run_local_server(port=0)
-    except Exception as e:
-        print(f"An error occurred")
+                for future in futures:
+                    try:
+                        future.result()
+                    except Exception as e:
+                        print(f"Error in thread execution: {str(e)}")
+
+            except KeyboardInterrupt:
+                print("\nStopping script...")
+                break
+            except Exception as e:
+                print(f"Error in main loop: {str(e)}")
+                time.sleep(5)  # Wait before retrying
+
+
+if __name__ == "__main__":
+    main()
