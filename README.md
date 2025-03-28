@@ -1,88 +1,76 @@
-# data.code.cloud
-coding interview for big 5
-
-
 # Prem Vishnoi
-**Lead Data Engineer | Cloud & Big Data Architect**
+## Lead Data Engineer | Expert in Big Data and AI
 
-📞 +65-92716405 | ✉️ vishnoiprem@gmail.com 
-🔗 LinkedIn: linkedin.com/in/vishnoiprem | 📝 Blog: medium.com/@premvishnoi
++65-92716405 | vishnoiprem@gmail.com | [LinkedIn](https://www.linkedin.com/in/vishnoiprem/) | [Blog](https://medium.com/@premvishnoi)
 
 ## PROFESSIONAL SUMMARY
-Seasoned Data Engineering Leader with 14+ years of experience driving strategic data initiatives across e-commerce, retail, and financial services. Expert in transforming complex data ecosystems, leading cross-functional teams, and implementing innovative cloud and big data solutions.
+Data Engineering Leader with 14+ years of experience transforming complex data ecosystems across e-commerce, retail, and financial services. Expert in building scalable data platforms, leading cross-functional teams, and delivering innovative cloud solutions.
 
-## KEY TECHNICAL SKILLS
-- **Programming**: Python, SQL, Java
-- **Big Data**: Apache Spark, Hadoop, Kafka, Flink
-- **Cloud Platforms**: AWS, Azure, Aliyun
-- **Data Tools**: Databricks, Teradata, Airflow, dbt
-- **Machine Learning**: Scikit-learn, PyTorch, NLP
-- **Data Visualization**: Looker, Power BI, Tableau
+## TECHNICAL EXPERTISE
+- **Core:** Python, SQL, Java, Shell Scripting
+- **Big Data:** Apache Spark, Hadoop, Kafka, Flink, HBase
+- **Cloud:** AWS (Solutions Architect), Azure, Aliyun
+- **Data Platform:** Databricks, Airflow, dbt, Teradata, MySQL, Postgres
+- **ML/AI:** PyTorch, Scikit-learn, NLP, LLMs
+- **Visualization:** Looker, Power BI, Quickview
 
 ## PROFESSIONAL EXPERIENCE
 
-### Lead Data Engineer | Makro.co.th
-*June 2024 - Present*
-- Led 16-person cross-functional team of data engineers, analysts, and product managers
-- Developed Lakehouse Architecture, reducing operational costs by 50%
-- Implemented data validation frameworks, improving data reliability by 20%
-- **Tech Stack**: Azure, AWS, Databricks, Spark, Kafka, Power BI, Python
+### Lead Data Engineer | CPaxtra (2024 - Present)
+- Led 16-person engineering team building next-gen data platform
+- Built end-to-end data pipelines serving 50+ stakeholders across retail operations
+- Developed real-time data products for last-mile delivery reducing delivery time by 30%
+- Architected Lakehouse solution reducing operational costs by 50%
+- Implemented data validation frameworks improving reliability by 20%
+- **Tech:** Azure, AWS, Databricks, Spark, Kafka, Python
 
-### Lead Data Engineer | Xendit.co, Singapore
-*January 2024 - July 2024*
-- Developed real-time ETL pipelines with Airflow
-- Improved data throughput by 20%
-- Built AWS/Databricks Data Lake integrating 100+ business unit APIs
-- Reduced data errors by 15% using DBT validation
-- **Tech Stack**: Databricks, AWS S3, Glue, Lambda, Airflow, Python, Looker, DBT
+### Lead Data Engineer | Xendit.co, Singapore (2024)
+- Led 4-person team developing real-time and batch data pipelines
+- Built automated FX data pipeline reducing manual processing by 80%
+- Optimized AWS/Databricks costs by 40% through resource optimization
+- Reduced DBT job execution time by 60% through code refactoring
+- **Tech:** Databricks, AWS, Airflow, Python, DBT, Looker
 
-### VP Data Engineer | Lazada Group, Singapore
-*July 2018 - January 2024*
-- Built Data Lakehouse on Alibaba Cloud, migrating 600+ tables
-- Created real-time data warehouse with Kafka, Flink, ClickHouse
-- Reduced infrastructure costs by 30%
-- Enabled faster business insights through data optimization
-- **Tech Stack**: Alicloud, Kafka, Flink, ClickHouse, Python, Tableau
+### VP Data Engineer | Lazada Group, Singapore (2018 - 2024)
+- Built Data Lakehouse on Alibaba Cloud using ODS, CDM, ADS layers supporting $10B+ GMV
+- Built real-time last-mile delivery platform tracking 5M+ parcels daily
+- Developed real-time hub analytics reducing backlog by 35% with capacity alerts
+- Created campaign data platform supporting 11.11, 12.12 events handling 10M+ orders/hour
+- Implemented data governance and lineage for 1000+ tables across 6 countries
+- **Tech:** Alicloud, Kafka, Flink, Hologres, Python, SpringBoot
 
-### Senior Big Data Consultant | SCB Bank, Singapore
-*February 2016 - July 2018*
+### Sr. Big Data Consultant | SCB Bank, Singapore (2016 - 2018)
 - Developed batch data pipelines for Anti-Money Laundering (AML) operations
 - Managed data workflows across 15+ international markets
 - Improved data ingestion efficiency by 15%
-- Optimized AML report processing, reducing analysis time by 10%
-- **Tech Stack**: Hadoop, Hive, Kafka, Spark, SQL, Lucidworks, Scala
+- **Tech:** Hadoop, Hive, Kafka, Spark, SQL, Teradata, Scala
 
-### Data Engineer Platform | DBS Bank, Singapore
-*September 2015 - February 2016*
+### Data Engineer | DBS Bank, Singapore (2015 - 2016)
 - Migrated to Hadoop-based big data platform
 - Developed scalable data ingestion frameworks
-- Improved query performance across multiple business units
-- **Tech Stack**: Hadoop, Hive, Kafka, Spark, SQL, Teradata, Scala
+- **Tech:** Hadoop, Hive, Kafka, Spark, SQL, Teradata
 
-### ETL Data Engineer | PayPal Inc., India
-*April 2014 - September 2015*
-- Designed end-to-end ETL pipelines for enterprise payment processing
-- Handled 500 million daily transactions
-- Reduced data processing times by 50%
-- Integrated business intelligence tools for payment trend analysis
-- **Tech Stack**: ETL, Python, Hadoop, Spark, SQL, Shell Script
+### ETL Data Engineer | PayPal Inc., India (2014 - 2015)
+- Designed ETL pipelines handling 500M daily transactions
+- Reduced processing times by 50%
+- **Tech:** ETL, Python, Hadoop, Spark, SQL
 
-### Data Warehouse Engineer | Exilant Tech, India
-*January 2011 - April 2014*
-- Supported Apple Inc.'s customer care platform data warehouse
+### Data Warehouse Engineer | Exilant Tech, India (2011 - 2014)
+- Built data warehouse for Apple's customer care platform
 - Improved data accuracy by 10%
-- Developed scalable ETL workflows, enhancing data processing efficiency by 25%
-- Implemented star schema designs, optimizing query performance by 20%
-- **Tech Stack**: SQL, Informatica, Teradata, Tableau, Python, Unix Shell Scripting, Java
+- **Tech:** SQL, Informatica, Teradata, Tableau, Python
 
 ## EDUCATION
-- **Master in AI & Machine Learning** | University of Texas at Austin
+- **PGP in AI & Machine Learning** | University of Texas at Austin
 - **Bachelor of Engineering** | University of Rajasthan
 
-## CERTIFICATIONS
+## CERTIFICATIONS & ACHIEVEMENTS
 - AWS Solutions Architect Associate
 - LLM Model Learning Certificate
+- Internal Hackathon Winner at PayPal
+- Promoted twice in 4 years for exceptional performance
 
-## ACHIEVEMENTS
-- Internal Hackathon Winner at Lazada
-- Promoted twice in 4 years due to exceptional performance
+
+
+## Head of data  | Expert in Big Data and AI
+
