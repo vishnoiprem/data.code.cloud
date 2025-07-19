@@ -8,9 +8,6 @@ spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "100MB")
 spark.conf.set("spark.sql.join.preferSortMergeJoin", "false")
 
 
-
-
-
 # Load data
 df_transactions = spark.read.option("header", True).csv("data/transactions.csv")
 df_customers = spark.read.option("header", True).csv("data/customers.csv")
