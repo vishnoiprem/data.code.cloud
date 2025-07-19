@@ -8,10 +8,10 @@
 # WHEN NOT MATCHED THEN
 #   INSERT (columns...) VALUES (values...)
 
-print("Use Delta merge operation for SCD Type 2, with hash comparison or field tracking.")
-
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import sha2, concat_ws, lit, current_timestamp
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType
+from delta.tables import DeltaTable
 
 # Enable Delta Lake extensions
 spark = SparkSession.builder \
@@ -20,27 +20,48 @@ spark = SparkSession.builder \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .getOrCreate()
 
-# Existing Delta table (historical records)
+# Define schema to avoid inference issues
+schema = StructType([
+    StructField("customer_id", IntegerType(), False),
+    StructField("name", StringType(), True),
+    StructField("status", StringType(), True),
+    StructField("start_date", StringType(), True),
+    StructField("end_date", StringType(), True),
+    StructField("current_flag", BooleanType(), True),
+    StructField("record_hash", StringType(), True)
+])
+
+# Historical data (Delta table)
 df_existing = spark.createDataFrame([
     (1, "John", "ACTIVE", "2023-01-01", None, True, "oldhash"),
-], ["customer_id", "name", "status", "start_date", "end_date", "current_flag", "record_hash"])
+], schema=schema)
 
 df_existing.write.format("delta").mode("overwrite").save("output/scd_target")
 
-# New incoming data (changes and new records)
+# New incoming data
 df_new = spark.createDataFrame([
-    (1, "John", "INACTIVE", "2025-07-19"),  # Status changed
-    (2, "Jane", "ACTIVE", "2025-07-19"),    # New record
+    (1, "John", "INACTIVE", "2025-07-19"),
+    (2, "Jane", "ACTIVE", "2025-07-19"),
 ], ["customer_id", "name", "status", "start_date"])
 
-# Add hash to detect change
+# Add hash column, flags
 df_new = df_new.withColumn("record_hash", sha2(concat_ws("||", *["customer_id", "name", "status"]), 256)) \
                .withColumn("current_flag", lit(True)) \
                .withColumn("end_date", lit(None).cast("string"))
 
-# Perform SCD Type 2 Merge
-from delta.tables import DeltaTable
+# Save new data as temp table
+df_new.createOrReplaceTempView("staging_data")
 
+# SQL VIEW: Historical table
+spark.read.format("delta").load("output/scd_target").createOrReplaceTempView("scd_target")
+
+# Optional SQL query to view changes
+spark.sql("""
+    SELECT t.customer_id, t.name, t.status, t.start_date, t.end_date, t.current_flag, t.record_hash
+    FROM scd_target t
+""").show()
+
+# Perform SCD Type 2 Delta merge
 delta_target = DeltaTable.forPath(spark, "output/scd_target")
 
 delta_target.alias("target").merge(
@@ -64,4 +85,4 @@ delta_target.alias("target").merge(
     }
 ).execute()
 
-print("Q10: SCD Type 2 merge completed with Delta Lake.")
+print(" Q10: SCD Type 2 Delta Lake with SQL View completed.")
