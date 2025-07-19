@@ -17,4 +17,4 @@ df_sql = spark.sql("""
     FROM transactions
     GROUP BY branch_id, account_type
 """)
-df_sql.write.mode("overwrite").parquet("output/q14_result_sql/")
+df_sql.write.mode("overwrite").csv("output/q14_result_sql/")
