@@ -29,4 +29,4 @@ df_sql = spark.sql("""
     FROM transactions_salted
     WHERE transaction_id IS NOT NULL AND amount IS NOT NULL
 """)
-df_sql.write.mode("overwrite").partitionBy("branch_id").csv("output/q1_result_sql/")
+df_sql.repartition("branch_id", "salt").write.mode("overwrite").partitionBy("branch_id").csv("output/q1_result_sql/")
